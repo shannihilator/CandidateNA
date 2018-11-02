@@ -45,6 +45,33 @@ const loadApi = array => {
 
 // displays frequency count of all unique chars of each email
 const countUnique = (e) => {
+	initalizeSortedValues()
+
+	id = e.target.parentNode
+	email = id.childNodes[1].innerHTML
+			
+	countedChars = pushToSortedArray(calculateUnique(email))
+
+	addToSortedValues(countedChars)	
+}
+
+// Count all unique chars in every email
+const countAllUnique = (e) => {
+	initalizeSortedValues()
+	
+	let emailString = ''
+
+	document.querySelectorAll('.email').forEach((email) => {
+		emailString+=email.innerHTML
+	})
+
+	countedChars = pushToSortedArray(calculateUnique(emailString))
+
+	addToSortedValues(countedChars)	
+}
+
+// clears and puts in inital headers into sorted-values
+const initalizeSortedValues = () => {
 	document.querySelector('#sorted-values').innerHTML = ''
 				
 	let headerRow = document.createElement('tr')
@@ -58,23 +85,6 @@ const countUnique = (e) => {
 	headerRow.appendChild(countCol)
 
 	document.querySelector('#sorted-values').appendChild(headerRow)
-
-	id = e.target.parentNode
-	email = id.childNodes[1].innerHTML
-			
-	countedChars = pushToSortedArray(calculateUnique(email))
-
-	for(i=0; i<countedChars.length; i++){
-		const row = document.createElement('tr')
-
-		for(n=0; n<countedChars[i].length; n++){
-			const col = document.createElement('td')
-			col.innerHTML = countedChars[i][n]
-			row.appendChild(col)
-		}
-				
-		document.querySelector('#sorted-values').appendChild(row)
-	}	
 }
 
 // calculates the numnber of unique chars and pushes to javascript object
@@ -106,6 +116,20 @@ const pushToSortedArray = (count) => {
 	finalArray.sort((a,b) => b[1] - a[1])
 
 	return finalArray
+}
+
+// adds all rows to sorted-values table 
+const addToSortedValues = (countedChars) => {
+	for(i=0; i<countedChars.length; i++){
+		const row = document.createElement('tr')
+
+		for(n=0; n<countedChars[i].length; n++){
+			const col = document.createElement('td')
+			col.innerHTML = countedChars[i][n]
+			row.appendChild(col)
+		}		
+		document.querySelector('#sorted-values').appendChild(row)
+	}
 }
 
 // searches through emails and finds potential duplicates based on % chars match
