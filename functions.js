@@ -184,6 +184,7 @@ const percentageSimilar = (str1, str2) => {
 	}
 }
 
+//filters out repeats from duplicates array
 const filterRepeats = (array) => {
 	const duplicates2 = array.map((o) => {
 	    if (o.email1 <= o.email2) {
